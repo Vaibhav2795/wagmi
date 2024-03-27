@@ -52,7 +52,9 @@ const UseReadContractComponent = () => {
           <h2 className="text-lg font-medium flex gap-2">
             Token Address{" "}
             <span className="text-gray-600 font-normal text-base flex gap-1 my-auto">
-              <CopyComponent copyText={tokenContract.address}>
+              <CopyComponent
+                copyText={`https://mumbai.polygonscan.com/token/${tokenContract.address}`}
+              >
                 {formatAddress({
                   address: tokenContract.address,
                 })}

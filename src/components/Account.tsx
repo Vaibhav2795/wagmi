@@ -19,6 +19,8 @@ export function Account() {
     setIsClient(true);
   }, []);
 
+  const blockExplorerUrl = chain?.blockExplorers?.default.url;
+
   return (
     isClient && (
       <div className="max-w-4xl w-full">
@@ -34,7 +36,9 @@ export function Account() {
             <div>
               {address && (
                 <p className="text-xl w-fit">
-                  <CopyComponent copyText={address}>
+                  <CopyComponent
+                    copyText={`${blockExplorerUrl}/address/${address}`}
+                  >
                     {ensName
                       ? `${ensName} (${address})`
                       : formatAddress({ address })}
