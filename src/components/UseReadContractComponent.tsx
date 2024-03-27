@@ -1,5 +1,5 @@
 import React from "react";
-import { useReadContracts } from "wagmi";
+import { useAccount, useReadContracts } from "wagmi";
 
 import { Card } from "./Account";
 import Erc20Abi from "../contracts/erc20Abi.json";
@@ -12,6 +12,8 @@ const tokenContract = {
 } as const;
 
 const UseReadContractComponent = () => {
+  const { address } = useAccount();
+
   const result: any = useReadContracts({
     allowFailure: false,
     contracts: [
@@ -35,8 +37,11 @@ const UseReadContractComponent = () => {
         ...tokenContract,
         functionName: "decimals",
       },
+      { ...tokenContract, functionName: "balanceOf", args: [address] },
     ],
   });
+
+  console.log({ result });
 
   return (
     <div className="mt-10">
@@ -65,6 +70,12 @@ const UseReadContractComponent = () => {
 
           {result.isSuccess && result.data ? (
             <div className="grid grid-cols-3 mt-4">
+              <h1>
+                Token Balance:{" "}
+                <span className="font-semibold">
+                  {etherToWei(result.data[5])}
+                </span>
+              </h1>
               <h1>
                 Total Supply:{" "}
                 <span className="font-semibold">{result.data[0]}</span>
