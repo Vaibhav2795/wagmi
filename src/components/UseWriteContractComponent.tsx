@@ -4,7 +4,11 @@ import {
   useAccount,
   useSendTransaction,
   useWaitForTransactionReceipt,
+  useWriteContract,
 } from "wagmi";
+import { writeContract } from "wagmi/actions";
+
+import ERC20 from "../contracts/erc20Abi.json";
 
 import Card from "./common/Card";
 import Input from "./common/Input";
@@ -14,14 +18,16 @@ import { formatAddress } from "@/utils/helper";
 interface FormData {
   address: `0x${string}`;
   amount: string;
+  contractAddress: `0x${string}`;
 }
 const intitalState: FormData = {
-  address: "0x00",
+  address: "0x0",
   amount: "",
+  contractAddress: "0x0",
 };
 
-export default function UseSendTransactionComponent() {
-  const { data: hash, sendTransaction, isPending } = useSendTransaction();
+export default function UseWriteContractComponent() {
+  const { data: hash, writeContract } = useWriteContract();
 
   const { chain } = useAccount();
   const blockExplorerUrl = chain?.blockExplorers?.default.url;
@@ -40,9 +46,13 @@ export default function UseSendTransactionComponent() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const { address, amount } = formData;
-    sendTransaction({ to: address, value: parseEther(amount) });
-    sendTransaction({ to: address, value: parseEther(amount) });
+    const { address, amount, contractAddress } = formData;
+    writeContract({
+      address: contractAddress,
+      abi: ERC20,
+      functionName: "transfer",
+      args: [address, parseEther(amount)],
+    });
   };
 
   const reFetchBalance = useWalletStore((state: any) => state.reFetchBalance);
@@ -55,22 +65,32 @@ export default function UseSendTransactionComponent() {
   return (
     <div className="mt-10">
       <div className="m-auto text-xl font-bold">
-        useSendTransaction Hook{" "}
+        UseWriteContractComponent Hook{" "}
         <span className="text-gray-600 font-normal text-base">
-          (Hook for creating, signing, and sending transactions to networks)
+          (Action for executing a write function on a contract.)
         </span>
       </div>
       <div className="grid grid-cols-1 gap-5 mt-2">
         <Card>
-          <h2 className="text-lg font-medium">Native Token Transfer</h2>
+          <h2 className="text-lg font-medium">ERC20 Token Transfer</h2>
 
           <form
             onSubmit={handleSubmit}
             className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4"
           >
             <Input
+              placeholder="contract address"
+              value={
+                formData.contractAddress === "0x0"
+                  ? ""
+                  : formData.contractAddress
+              }
+              onChange={handleChange}
+              name="contractAddress"
+            />
+            <Input
               placeholder="to address"
-              value={formData.address === "0x00" ? "" : formData.address}
+              value={formData.address === "0x0" ? "" : formData.address}
               onChange={handleChange}
               name="address"
             />
@@ -82,10 +102,9 @@ export default function UseSendTransactionComponent() {
             />
             <button
               type="submit"
-              disabled={isPending}
               className="bg-indigo-400 p-2 px-4 text-white rounded-full disabled:opacity-10"
             >
-              {isPending ? "Sending" : "Send"}
+              Send
             </button>
 
             {hash && (
