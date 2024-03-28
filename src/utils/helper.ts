@@ -1,8 +1,8 @@
-import { Web3 } from "web3";
-
-const web3 = new Web3();
-
-export function formatAddress({ address }: { address: string }) {
+export function formatAddress({
+  address,
+}: {
+  address: string | `0x${string}`;
+}) {
   if (address) {
     return `${address.substring(0, 5)}...${address.substring(
       address.length - 5
@@ -11,6 +11,9 @@ export function formatAddress({ address }: { address: string }) {
   return null;
 }
 
-export function etherToWei(amount: number) {
-  return parseFloat(web3.utils?.fromWei(amount, "ether")).toFixed(2);
+export function formatHash({ hash }: { hash: `0x${string}` }) {
+  if (hash) {
+    return `${hash.substring(0, 5)}...${hash.substring(hash.length - 5)}`;
+  }
+  return null;
 }

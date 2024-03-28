@@ -17,7 +17,7 @@
     "react-dom": "^18",
     "viem": "^2.8.18",
     "wagmi": "^2.5.12",
-    "web3": "^4.7.0"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "^20",

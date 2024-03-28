@@ -1,5 +1,5 @@
 import { useAccount, useSwitchChain } from "wagmi";
-import { Card } from "./Account";
+import Card from "./common/Card";
 
 const UseSwitchChainComponent = () => {
   const { chains, switchChain } = useSwitchChain();

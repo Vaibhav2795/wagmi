@@ -1,12 +1,28 @@
-import { useAccount, useBalance, UseBalanceReturnType } from "wagmi";
-import { Card } from "./Account";
+import {
+  useAccount,
+  useBalance,
+  UseBalanceReturnType,
+  useWaitForTransactionReceipt,
+} from "wagmi";
+import Card from "./common/Card";
+import React from "react";
+import Image from "next/image";
+import { formatUnits, parseEther } from "viem";
+import useWalletStore from "../../zustand/store";
 
 const UseBalanceHookComponent = () => {
   const { address, chain } = useAccount();
-  const balance: UseBalanceReturnType = useBalance({
+
+  const { data, refetch }: UseBalanceReturnType = useBalance({
     address,
     unit: "ether",
   });
+
+  const balance = useWalletStore((state) => state.balance);
+
+  React.useEffect(() => {
+    refetch();
+  }, [balance]);
 
   return (
     <div className="mt-10">
@@ -18,9 +34,20 @@ const UseBalanceHookComponent = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-2">
         <Card>
-          <h2 className="text-lg font-medium">Native Balance</h2>
+          <div className="flex justify-between">
+            <h2 className="text-lg font-medium">Native Balance</h2>
+            <Image
+              src="/images/refresh.svg"
+              width={16}
+              height={16}
+              onClick={() => refetch()}
+              alt={"refresh"}
+              className="cursor-pointer hover:animate-spin"
+            />
+          </div>
           <p className="mt-4">
-            {balance.data?.formatted} {chain?.nativeCurrency.name}
+            {data && parseFloat(formatUnits(data?.value, 18)).toFixed(2)}{" "}
+            {chain?.nativeCurrency.name}
           </p>
         </Card>
 

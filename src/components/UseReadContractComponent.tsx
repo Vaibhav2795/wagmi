@@ -1,10 +1,11 @@
 import React from "react";
+import { formatEther } from "viem";
 import { useAccount, useReadContracts } from "wagmi";
 
-import { Card } from "./Account";
 import Erc20Abi from "../contracts/erc20Abi.json";
-import { etherToWei, formatAddress } from "@/utils/helper";
+import { formatAddress } from "@/utils/helper";
 import CopyComponent from "./CopyComponent";
+import Card from "./common/Card";
 
 const tokenContract = {
   address: "0x261d19155d824a7BDF4F7aE6D9B9f25401650319",
@@ -66,33 +67,33 @@ const UseReadContractComponent = () => {
           </h2>
 
           {result.isSuccess && result.data ? (
-            <div className="grid grid-cols-1 sm:grid-cols-3 mt-4">
-              <h1>
+            <div className="grid grid-cols-1 sm:grid-cols-3 mt-4 gap-x-12 gap-y-4">
+              <h1 className="flex justify-between">
                 Token Balance:{" "}
                 <span className="font-semibold">
-                  {etherToWei(result.data[5])}
+                  {parseFloat(formatEther(result.data[5])).toFixed(2)}
                 </span>
               </h1>
-              <h1>
+              <h1 className="flex justify-between">
                 Total Supply:{" "}
                 <span className="font-semibold">{result.data[0]}</span>
               </h1>
-              <h1>
+              <h1 className="flex justify-between">
                 Symbol: <span className="font-semibold">{result.data[1]}</span>
               </h1>
-              <h1>
+              <h1 className="flex justify-between">
                 totalSupply:{" "}
                 <span className="font-semibold">
-                  {etherToWei(result.data[3])}
+                  {parseFloat(formatEther(result.data[3])).toFixed(2)}
                 </span>
               </h1>
-              <h1>
+              <h1 className="flex justify-between">
                 Owner:{" "}
                 <span className="font-semibold">
                   {formatAddress({ address: result.data[2] })}
                 </span>
               </h1>
-              <h1>
+              <h1 className="flex justify-between">
                 Decimal:
                 <span className="font-semibold">{result.data[4]}</span>
               </h1>

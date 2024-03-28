@@ -6,6 +6,7 @@ import {
   mainnet,
   polygon,
   polygonMumbai,
+  sepolia,
   telos,
 } from "wagmi/chains";
 import {
@@ -19,7 +20,16 @@ import {
 const projectId = "79b1f41a40da47699d86d8a74f3adcbf";
 
 export const config = createConfig({
-  chains: [mainnet, base, polygonMumbai, polygon, telos, bsc, bscTestnet],
+  chains: [
+    mainnet,
+    sepolia,
+    polygon,
+    polygonMumbai,
+    bsc,
+    bscTestnet,
+    base,
+    telos,
+  ],
   connectors: [
     injected(),
     walletConnect({ projectId }),
@@ -31,6 +41,7 @@ export const config = createConfig({
   ],
   transports: {
     [mainnet.id]: http(),
+    [sepolia.id]: http(),
     [base.id]: http(),
     [polygonMumbai.id]: http(),
     [polygon.id]: http(),

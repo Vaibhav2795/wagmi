@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { useAccount, useDisconnect } from "wagmi";
 
-import { Card } from "./Account";
+import Card from "./common/Card";
 import CopyComponent from "./CopyComponent";
 import { formatAddress } from "@/utils/helper";
 
@@ -25,9 +25,7 @@ export default function UseAccountHookComponent() {
         <div>
           {address && (
             <p className="text-xl w-fit">
-              <CopyComponent
-                copyText={`${blockExplorerUrl}/address/${address}`}
-              >
+              <CopyComponent copyText={address}>
                 {formatAddress({ address })}
               </CopyComponent>
             </p>
