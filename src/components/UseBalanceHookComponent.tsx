@@ -1,7 +1,8 @@
-import { useBalance, UseBalanceReturnType } from "wagmi";
+import { useAccount, useBalance, UseBalanceReturnType } from "wagmi";
 import { Card } from "./Account";
 
-const UseBalanceHookComponent = ({ address, chain }: any) => {
+const UseBalanceHookComponent = () => {
+  const { address, chain } = useAccount();
   const balance: UseBalanceReturnType = useBalance({
     address,
     unit: "ether",

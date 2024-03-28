@@ -22,15 +22,15 @@ export function WalletOptions() {
           Choose how you want to connect. There are several wallet providers
         </p>
 
-        <div className="mb-6 flex gap-2">
+        <div className="mb-6 flex gap-2 flex-wrap">
           {chains.map((chain) => (
             <button
               key={chain.id}
               onClick={() => setSelectedChain(chain.id)}
-              className={`p-2 font-semibold ${
+              className={`p-2 font-semibold rounded-lg ${
                 selectedChain === chain.id
-                  ? "text-black underline underline-offset-4 decoration-2 decoration-indigo-400"
-                  : "text-gray-400"
+                  ? "bg-indigo-400 text-white "
+                  : "text-gray-400 hover:bg-indigo-50"
               }`}
             >
               {chain.name}

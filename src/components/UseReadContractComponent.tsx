@@ -41,8 +41,6 @@ const UseReadContractComponent = () => {
     ],
   });
 
-  console.log({ result });
-
   return (
     <div className="mt-10">
       <div className="m-auto text-xl font-bold">
@@ -54,7 +52,7 @@ const UseReadContractComponent = () => {
       </div>
       <div className="grid grid-cols-3 gap-5 mt-2">
         <Card className="col-span-3">
-          <h2 className="text-lg font-medium flex gap-2">
+          <h2 className="text-lg font-medium flex gap-2 flex-wrap">
             Token Address{" "}
             <span className="text-gray-600 font-normal text-base flex gap-1 my-auto">
               <CopyComponent
@@ -64,7 +62,6 @@ const UseReadContractComponent = () => {
                   address: tokenContract.address,
                 })}
               </CopyComponent>
-              deployed on mumbai test-net
             </span>
           </h2>
 

@@ -1,64 +1,22 @@
-import Image from "next/image";
-import { useAccount, useDisconnect, useEnsAvatar, useEnsName } from "wagmi";
-import UseBalanceHookComponent from "./UseBalanceHookComponent";
-import UseSwitchChainComponent from "./UseSwitchChainComponent";
-import UseReadContractComponent from "./UseReadContractComponent";
 import React from "react";
-import { formatAddress } from "@/utils/helper";
-import CopyComponent from "./CopyComponent";
+import { useAccount, useDisconnect, useEnsAvatar, useEnsName } from "wagmi";
+
+import UseAccountHookComponent from "./UseAccountHookComponent";
+import UseSwitchChainComponent from "./UseSwitchChainComponent";
+import UseBalanceHookComponent from "./UseBalanceHookComponent";
+import UseReadContractComponent from "./UseReadContractComponent";
 
 export function Account() {
-  const { address, connector, chain, chainId } = useAccount();
-
-  const { disconnect } = useDisconnect();
-  const { data: ensName } = useEnsName({ address });
-  const { data: ensAvatar } = useEnsAvatar({ name: ensName! });
-
   const [isClient, setIsClient] = React.useState(false);
   React.useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const blockExplorerUrl = chain?.blockExplorers?.default.url;
-
   return (
     isClient && (
       <div className="max-w-4xl w-full">
-        <Card className="flex justify-between flex-wrap gap-2">
-          <div className="flex gap-2 flex-wrap">
-            <Image
-              src={ensAvatar || "/images/default-profile.svg"}
-              width={50}
-              height={50}
-              alt="ens-avatar"
-              className="rounded-full"
-            />
-            <div>
-              {address && (
-                <p className="text-xl w-fit">
-                  <CopyComponent
-                    copyText={`${blockExplorerUrl}/address/${address}`}
-                  >
-                    {ensName
-                      ? `${ensName} (${address})`
-                      : formatAddress({ address })}
-                  </CopyComponent>
-                </p>
-              )}
-              <p className="text-sm">
-                Connected to {connector?.name} Connector with {chainId}
-              </p>
-            </div>
-          </div>
-          <button
-            className="bg-indigo-400 text-white px-5 rounded-full h-10"
-            onClick={() => disconnect()}
-          >
-            Disconnect
-          </button>
-        </Card>
-
-        <UseBalanceHookComponent address={address} chain={chain} />
+        <UseAccountHookComponent />
+        <UseBalanceHookComponent />
         <UseSwitchChainComponent />
         <UseReadContractComponent />
       </div>
