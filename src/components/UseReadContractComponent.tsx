@@ -66,7 +66,7 @@ const UseReadContractComponent = () => {
           </h2>
 
           {result.isSuccess && result.data ? (
-            <div className="grid grid-cols-3 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 mt-4">
               <h1>
                 Token Balance:{" "}
                 <span className="font-semibold">
