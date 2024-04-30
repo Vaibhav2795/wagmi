@@ -8,6 +8,7 @@ import {
   polygonMumbai,
   sepolia,
   telos,
+  polygonAmoy,
 } from "wagmi/chains";
 import {
   coinbaseWallet,
@@ -24,7 +25,7 @@ export const config = createConfig({
     mainnet,
     sepolia,
     polygon,
-    polygonMumbai,
+    polygonAmoy,
     bsc,
     bscTestnet,
     base,
@@ -43,7 +44,7 @@ export const config = createConfig({
     [mainnet.id]: http(),
     [sepolia.id]: http(),
     [base.id]: http(),
-    [polygonMumbai.id]: http(),
+    [polygonAmoy.id]: http(),
     [polygon.id]: http(),
     [telos.id]: http(),
     [bsc.id]: http(),
